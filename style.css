@@ -1,0 +1,115 @@
+:root {
+    --bg-color: #f0f2f5;
+    --primary: #88601b;
+    --white: #ffffff;
+    --text: #1f2937;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.contenedor {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 30px; 
+    padding: 0 20px;
+    align-items: flex-start;
+}
+
+.barra-iz {
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    width: 250px; 
+}
+
+.capsula {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.capsula h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    color: var(--primary);
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    
+}
+
+.menu li {
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.menu li:hover {
+    background-color: #f3f4f6;
+}
+
+.menu li.activo {
+    background-color: var(--primary);
+    color: white;
+}
+
+.Tareas{
+    flex: 1; /
+}
+
+.tarjeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--white);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+}
+
+.tarea{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.prioridad {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.alta { background-color: #fee2e2; color: #ef4444; }
+.baja { background-color: #d1fae5; color: #10b981; }
+
+@media (max-width: 768px) {
+    .contenedor-principal {
+        flex-direction: column;
+    }
+    .barra-lateral {
+        width: 100%;
+    }
+}
