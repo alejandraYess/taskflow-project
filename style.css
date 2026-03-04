@@ -94,19 +94,48 @@ header {
     gap: 15px;
 }
 
-
-.prioridad {
-    font-size: 0.8rem;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: bold;
+#espacio-escribir {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
 }
 
-.alta { background-color: #fee2e2; color: #ef4444; }
-.baja { background-color: #d1fae5; color: #10b981; }
+#boton-añadir {
+    cursor: pointer;
+}
+
+
+.boton-borrar {
+    background:none;
+    border:  none;
+    color: red;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0
+}
+
+
+.botones {
+    display: flex;
+    align-items: center;
+}
+
+.completada {
+    text-decoration: line-through;
+    opacity: 0.6;
+    color: gray;
+}
+
+.nombre {
+    cursor: pointer;
+}
+
 
 @media (max-width: 768px) {
-    .contenedor-principal {
+    .contenedor {
         flex-direction: column;
     }
     .barra-lateral {

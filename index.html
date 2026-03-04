@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow - Mis Prácticas</title>
+    <title>TaskFlow</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,50 +19,28 @@
             <div class="capsula">
                 <h3>Filtros</h3>
                 <ul class="menu">
-                    <li>Todas</li>
+                    <li class="activo">Todas</li>
                     <li>Pendientes</li>
-                    <li>Terminadas</li>
+                    <li>Completadas</li>
                 </ul>
             </div>
-
-            <div class="capsula">
-                <h3>Ámbitos</h3>
-                <ul class="menu">
-                    <li>Casa</li>
-                    <li>Trabajo</li>
-                    <li>Estudios</li>
-                </ul>
-            </div>
-
         </aside>
 
         <main class="Tareas">
+            <section class="entrada">
+                <form id="formulario">
+                    <input type="text" id="espacio-escribir" placeholder="Escribe tu tarea..." required>
+                    <button type="submit" id="boton-añadir">añadir</button>
+                </form>
+
+            </section>
             <h2>Mis Tareas</h2>
 
-            <div class="tarjeta">
-                <div class="tarea">
-                    <span class="nombre">poner la lavadora</span>
-                </div>
-                    <span class="prioridad baja">Baja</span>
-            </div>
-        
-            <div class="tarjeta">
-                <div class="tarea">
-                    <span class="nombre">Terminar el documento</span>
-                </div>
-                    <span class="prioridad alta">Alta</span>
-            </div>
-         
-            <div class="tarjeta">
-                <div class="info">
-                    <span class="nombre">Estudiar </span>
-                </div>
-                    <span class="prioridad alta">Alta</span>
-            </div>
-           
+            <div id="agregar-tareas"></div>
 
         </main>
+        
     </div>
-
+<script src="app.js"></script>
 </body>
 </html>
