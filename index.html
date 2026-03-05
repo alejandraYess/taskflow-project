@@ -6,41 +6,47 @@
     <title>TaskFlow</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="cuerpo" class="bg-[#f0f2f5] font-['Segoe_UI'] m-0 dark:bg-gray-900 transition-colors">
 
-    <header>
-        <h1>APP TAREAS</h1>
+    <header class="bg-[#333] text-white p-4 text-center relative">
+        <h1 class="text-xl font-bold">APP TAREAS</h1>
+        <button onclick="cambiarTema()" class="absolute right-4 top-4 border border-white px-2 py-1 rounded text-xs">Modo oscuro
+        </button>
     </header>
 
-    <div class="contenedor">
-        
-        <aside class="barra-iz">
-            
-            <div class="capsula">
-                <h3>Filtros</h3>
-                <ul class="menu">
-                    <li class="activo">Todas</li>
-                    <li>Pendientes</li>
-                    <li>Completadas</li>
+    <div class="contenedor flex max-w-[1200px] mx-auto my-[20px] gap-[30px] px-[20px] items-start">
+
+        <aside class="barra-iz flex flex-col gap-[20px] w-[250px]">
+            <div class="capsula bg-white p-[20px] rounded-[15px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800">
+                <h3 class="mt-0 text-[1rem] border-b border-gray-100 pb-[10px] text-primary font-bold">Filtros</h3>
+                <ul class="menu list-none p-0">
+                    <li class="activo bg-primary text-white p-[5px] rounded-[4px] cursor-pointer mt-[5px] hover:bg-gray-100 dark:text-white">Todas</li>
+                    <li class="p-[5px] rounded-[4px] cursor-pointer mt-[5px]">Pendientes</li>
+                    <li class="p-[5px] rounded-[4px] cursor-pointer mt-[5px] hover:bg-gray-100 dark:text-white">Completadas</li>
                 </ul>
             </div>
         </aside>
 
-        <main class="Tareas">
-            <section class="entrada">
-                <form id="formulario">
-                    <input type="text" id="espacio-escribir" placeholder="Escribe tu tarea..." required>
-                    <button type="submit" id="boton-añadir">añadir</button>
+        <main class="Tareas flex-1">
+            <section class="entrada mb-6">
+                <form id="formulario" class="flex gap-2">
+                    <input type="text" id="espacio-escribir" placeholder="Escribe tu tarea..." required
+                        class="flex-1 p-[10px] rounded-[8px] border border-[#ddd] dark:bg-gray-700 dark:text-white outline-none">
+                    <button type="submit" id="boton-añadir" class="bg-primary text-white px-4 py-2 rounded-lg cursor-pointer font-bold">añadir</button>
                 </form>
-
             </section>
-            <h2>Mis Tareas</h2>
 
-            <div id="agregar-tareas"></div>
-
+            <h2 class="font-bold mb-4 dark:text-white">Mis Tareas</h2>
+            
+            <div id="agregar-tareas" class="flex flex-col gap-[12px]"></div>
         </main>
-        
     </div>
-<script src="app.js"></script>
+
+    <script src="app.js"></script>
+    <script>
+        function cambiarTema() {
+            document.getElementById('cuerpo').classList.toggle('dark');
+        }
+    </script>
 </body>
 </html>

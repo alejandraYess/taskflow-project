@@ -1,0 +1,25 @@
+{
+  "name": "taskflow-project",
+  "version": "1.0.0",
+  "description": "TaskFlow con diseño en Tailwind",
+  "main": "app.js",
+  "scripts": {
+    "build": "tailwindcss -i ./diseño.css -o ./style.css",
+    "dev": "tailwindcss -i ./diseño.css -o ./style.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejandraYess/taskflow-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/alejandraYess/taskflow-project/issues"
+  },
+  "homepage": "https://github.com/alejandraYess/taskflow-project#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.2.1"
+  }
+}
