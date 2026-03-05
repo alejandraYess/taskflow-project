@@ -1,11 +1,11 @@
 {
   "name": "taskflow-project",
   "version": "1.0.0",
-  "description": "TaskFlow con diseño en Tailwind",
+  "description": "TaskFlow con diseno en Tailwind",
   "main": "app.js",
   "scripts": {
-    "build": "tailwindcss -i ./diseño.css -o ./style.css",
-    "dev": "tailwindcss -i ./diseño.css -o ./style.css --watch"
+    "build": "tailwindcss -i ./diseno.css -o ./style.css",
+    "dev": "tailwindcss -i ./diseno.css -o ./style.css --watch"
   },
   "repository": {
     "type": "git",
