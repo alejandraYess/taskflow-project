@@ -1,148 +1,177 @@
-const Formulario = document.querySelector('#formulario');
-const cajaTexto = document.querySelector('#espacio-escribir');
-const lugarTareas = document.querySelector('#agregar-tareas');
+// Referencias al DOM
+const formTareas = document.querySelector('#formulario');
+const inputNuevaTarea = document.querySelector('#espacio-escribir');
+const contenedorTareas = document.querySelector('#agregar-tareas');
+const inputBuscador = document.querySelector('#buscador-input');
+const botonesFiltro = document.querySelectorAll('.menu li');
 
+/** @type {Array<{texto: string, completada: boolean}>} */
 let listaTareas = [];
 
-window.onload = function() {
-    const memoria = localStorage.getItem('mis_tareas');
-    if (memoria) {
-        listaTareas = JSON.parse(memoria);
-         listaTareas.forEach(function(tarea) {
-            agregarTarea(tarea.texto, tarea.completada);
-        });
-    }
+/* ========== Inicialización ========== */
+
+window.onload = () => {
+    cargarTareasGuardadas();
     actualizarEstadisticas();
 };
 
-function guardarCambios() {
+/* ========== Persistencia ========== */
+
+/**
+ * Guarda la lista de tareas en localStorage.
+ */
+function guardarEnLocalStorage() {
     localStorage.setItem('mis_tareas', JSON.stringify(listaTareas));
 }
 
-Formulario.addEventListener('submit', function(evento) {
+/**
+ * Carga las tareas desde localStorage y las renderiza.
+ */
+function cargarTareasGuardadas() {
+    const datosGuardados = localStorage.getItem('mis_tareas');
+    if (!datosGuardados) return;
+
+    listaTareas = JSON.parse(datosGuardados);
+    listaTareas.forEach((tarea) => {
+        renderizarTarea(tarea.texto, tarea.completada);
+    });
+}
+
+/* ========== Formulario de nueva tarea ========== */
+
+formTareas.addEventListener('submit', (evento) => {
     evento.preventDefault();
-    const textoTarea = cajaTexto.value;
-     if (textoTarea !== "") {
-        const objetoTarea = { texto: textoTarea, completada: false };
-        listaTareas.push(objetoTarea);
-        agregarTarea(textoTarea, false);
-        guardarCambios();
-        actualizarEstadisticas();
-        cajaTexto.value = '';
-    }
+    const texto = inputNuevaTarea.value.trim();
+    if (!texto) return;
+
+    listaTareas.push({ texto, completada: false });
+    renderizarTarea(texto, false);
+    guardarEnLocalStorage();
+    actualizarEstadisticas();
+    inputNuevaTarea.value = '';
 });
 
-function agregarTarea(texto, estado) {
-    const nuevaTarea = document.createElement('div');
-    nuevaTarea.className = 'flex justify-between items-center bg-white p-[15px_20px] rounded-[12px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800 transition-all';
+/* ========== Renderizado de tareas ========== */
 
-    nuevaTarea.innerHTML = `
+/**
+ * Crea y agrega una tarjeta de tarea al DOM.
+ * @param {string} texto - Contenido de la tarea
+ * @param {boolean} completada - Si la tarea está completada
+ */
+function renderizarTarea(texto, completada) {
+    const clasesCompletada = completada ? 'line-through opacity-60 text-gray-400' : '';
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'flex justify-between items-center bg-white p-[15px_20px] rounded-[12px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800 transition-all';
+
+    tarjeta.innerHTML = `
         <div class="tarea flex items-center gap-[15px]">
-            <span class="nombre cursor-pointer dark:text-white ${estado ? 'line-through opacity-60 text-gray-400' : ''}">${texto}</span>
+            <span class="nombre cursor-pointer dark:text-white ${clasesCompletada}">${texto}</span>
         </div>
         <div class="flex gap-2">
-            <button class="boton-editar text-blue-500 font-bold hover:scale-110 transition-transform">✏️</button>
-            <button class="boton-borrar text-red-500 font-bold text-[1.2rem] hover:scale-110 transition-transform">X</button>
+            <button type="button" class="boton-editar text-blue-500 font-bold hover:scale-110 transition-transform">✏️</button>
+            <button type="button" class="boton-borrar text-red-500 font-bold text-[1.2rem] hover:scale-110 transition-transform">X</button>
         </div>
-    `; 
-    
-    const nombreTarea = nuevaTarea.querySelector('.nombre');
-    nombreTarea.onclick = function() {
-        nombreTarea.classList.toggle('line-through');
-        nombreTarea.classList.toggle('opacity-60');
-        nombreTarea.classList.toggle('text-gray-400');
-        
-        listaTareas.forEach(function(tarea) {
-             if (tarea.texto === texto) {
-                tarea.completada = !tarea.completada;
-            }
-        });
-        guardarCambios();
-        actualizarEstadisticas();
-    };
-    
-    const botonBorrar = nuevaTarea.querySelector('.boton-borrar');     
-    botonBorrar.onclick = function() { 
-        nuevaTarea.remove(); 
-        listaTareas = listaTareas.filter(function(tarea) {
-            return tarea.texto !== texto;
-        });
-        guardarCambios();
+    `;
+
+    const spanNombre = tarjeta.querySelector('.nombre');
+    const tareaEnLista = listaTareas.find((t) => t.texto === texto);
+
+    spanNombre.onclick = () => {
+        tareaEnLista.completada = !tareaEnLista.completada;
+        spanNombre.classList.toggle('line-through');
+        spanNombre.classList.toggle('opacity-60');
+        spanNombre.classList.toggle('text-gray-400');
+        guardarEnLocalStorage();
         actualizarEstadisticas();
     };
 
-    const botonEditar = nuevaTarea.querySelector('.boton-editar');
-    botonEditar.onclick = function() {
-        const nuevoTexto = prompt("Edita tu tarea:", texto);
-        if (nuevoTexto && nuevoTexto.trim() !== "") {
-            // Actualizamos en el array
-            listaTareas.forEach(function(t) {
-                if (t.texto === texto) {
-                    t.texto = nuevoTexto;
-                }
-            });
-            guardarCambios();
-            location.reload();
+    tarjeta.querySelector('.boton-borrar').onclick = () => {
+        tarjeta.remove();
+        listaTareas = listaTareas.filter((t) => t.texto !== texto);
+        guardarEnLocalStorage();
+        actualizarEstadisticas();
+    };
+
+    tarjeta.querySelector('.boton-editar').onclick = () => {
+        const nuevoTexto = prompt('Edita tu tarea:', texto);
+        if (nuevoTexto?.trim()) {
+            tareaEnLista.texto = nuevoTexto.trim();
+            spanNombre.textContent = nuevoTexto.trim();
+            guardarEnLocalStorage();
         }
     };
 
-    lugarTareas.appendChild(nuevaTarea);
+    contenedorTareas.appendChild(tarjeta);
 }
 
-    const botonesFiltro = document.querySelectorAll('.menu li');
-    botonesFiltro.forEach(function(boton) {
-      boton.onclick = function() {
+/* ========== Filtros ========== */
 
-        botonesFiltro.forEach(function(b) {
-            b.classList.remove('activo', 'bg-primary', 'text-white');
-        });
+/**
+ * Aplica visibilidad a las tarjetas según el filtro activo y el texto de búsqueda.
+ * @param {string} tipoFiltro - 'todas' | 'pendientes' | 'completadas'
+ * @param {string} [textoBusqueda=''] - Texto para filtrar por coincidencia
+ */
+function aplicarFiltros(tipoFiltro, textoBusqueda = '') {
+    const tarjetas = contenedorTareas.querySelectorAll(':scope > div');
+    const textoBusquedaLower = textoBusqueda.toLowerCase();
 
+    tarjetas.forEach((tarjeta) => {
+        const estaCompletada = tarjeta.querySelector('.nombre')?.classList.contains('line-through');
+        const coincideBusqueda = !textoBusquedaLower || tarjeta.innerText.toLowerCase().includes(textoBusquedaLower);
+
+        const visiblePorFiltro =
+            tipoFiltro === 'todas' ||
+            (tipoFiltro === 'completadas' && estaCompletada) ||
+            (tipoFiltro === 'pendientes' && !estaCompletada);
+
+        tarjeta.style.display = visiblePorFiltro && coincideBusqueda ? 'flex' : 'none';
+    });
+}
+
+botonesFiltro.forEach((boton) => {
+    boton.onclick = () => {
+        botonesFiltro.forEach((b) => b.classList.remove('activo', 'bg-primary', 'text-white'));
         boton.classList.add('activo', 'bg-primary', 'text-white');
 
-        const filtro = boton.innerText.toLowerCase();
-        const todasTareas = lugarTareas.children;
-
-        Array.from(todasTareas).forEach(function(tarjeta) {
-            const tachada = tarjeta.querySelector('.nombre').classList.contains('line-through');
-            if (filtro === 'completadas') {
-                tarjeta.style.display = tachada ? 'flex' : 'none';
-            } else if (filtro === 'pendientes') {
-                tarjeta.style.display = !tachada ? 'flex' : 'none';
-            } else {
-                tarjeta.style.display = 'flex';
-            }
-        });
+        const tipoFiltro = boton.innerText.toLowerCase();
+        aplicarFiltros(tipoFiltro, inputBuscador.value);
     };
 });
 
+inputBuscador.addEventListener('input', (evento) => {
+    const botonActivo = document.querySelector('.menu li.activo');
+    const tipoFiltro = botonActivo ? botonActivo.innerText.toLowerCase() : 'todas';
+    aplicarFiltros(tipoFiltro, evento.target.value);
+});
+
+/* ========== Estadísticas ========== */
+
+/**
+ * Actualiza los números mostrados en el panel de estadísticas.
+ */
 function actualizarEstadisticas() {
     const total = listaTareas.length;
-    const completadas = listaTareas.filter(t => t.completada).length;
+    const completadas = listaTareas.filter((t) => t.completada).length;
     const pendientes = total - completadas;
 
-    const stats = document.querySelectorAll('.capsula p span');
-    if (stats.length >= 3) {
-        stats[0].innerText = total;
-        stats[1].innerText = completadas;
-        stats[2].innerText = pendientes;
+    const spans = document.querySelectorAll('.capsula p span');
+    if (spans.length >= 3) {
+        [spans[0], spans[1], spans[2]].forEach((span, i) => {
+            span.textContent = [total, completadas, pendientes][i];
+        });
     }
 }
 
-// Filtra las tareas segun se vayan escribiendo
-const buscador = document.querySelector('#buscador-input');
-buscador.addEventListener('input', (e) => {
-    const texto = e.target.value.toLowerCase();
-    const tarjetas = document.querySelectorAll('#agregar-tareas > div');
-    
-    tarjetas.forEach(tarjeta => {
-        const contenido = tarjeta.innerText.toLowerCase();
-        tarjeta.style.display = contenido.includes(texto) ? 'flex' : 'none';
-    });
-});
+/* ========== Borrar completadas ========== */
 
-// limpia las tareas que ya están tachadas o completadas
 document.querySelector('#btn-borrar-completas').onclick = () => {
-    listaTareas = listaTareas.filter(t => !t.completada);
-    guardarCambios(); // Tu función que ya existe
-    location.reload(); // Recarga para limpiar la pantalla
+    listaTareas = listaTareas.filter((t) => !t.completada);
+    guardarEnLocalStorage();
+    contenedorTareas.innerHTML = '';
+    listaTareas.forEach((t) => renderizarTarea(t.texto, t.completada));
+    actualizarEstadisticas();
+
+    const botonActivo = document.querySelector('.menu li.activo');
+    const tipoFiltro = botonActivo ? botonActivo.innerText.toLowerCase() : 'todas';
+    aplicarFiltros(tipoFiltro, inputBuscador.value);
 };

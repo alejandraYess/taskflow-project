@@ -1,5 +1,9 @@
 @import "tailwindcss";
+@source "./*.html";
+@source "./*.js";
 @theme {
-  --color-primary: #88601b; 
+  --color-primary: #88601b;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
 }
 @variant dark (&:where(.dark, .dark *));
