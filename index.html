@@ -14,9 +14,9 @@
         </button>
     </header>
 
-    <div class="contenedor flex max-w-[1200px] mx-auto my-[20px] gap-[30px] px-[20px] items-start">
+    <div class="contenedor flex flex-col md:flex-row max-w-[1200px] mx-auto my-[20px] gap-[30px] px-[20px] items-start">
 
-        <aside class="barra-iz flex flex-col gap-[20px] w-[250px]">
+        <aside class="barra-iz flex flex-col gap-[20px] w-full md:w-[300px] shrink-0"> 
             <div class="capsula bg-white p-[20px] rounded-[15px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800">
                 <h3 class="mt-0 text-[1rem] border-b border-gray-100 pb-[10px] text-primary font-bold">Filtros</h3>
                 <ul class="menu list-none p-0">
@@ -25,18 +25,32 @@
                     <li class="p-[5px] rounded-[4px] cursor-pointer mt-[5px] hover:bg-gray-100 dark:text-white">Completadas</li>
                 </ul>
             </div>
+            <div class="capsula bg-white p-[20px] rounded-[15px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800 mt-4">
+                <h3 class="text-primary font-bold border-b border-gray-100 pb-[10px]">Estadísticas</h3>
+                <p class="dark:text-white">Total: <span>0</span></p>
+                <p class="dark:text-white">Completadas: <span>0</span></p>
+                <p class="dark:text-white">Pendientes: <span>0</span></p>
+            </div>
+            <button id="btn-borrar-completas" class="w-full bg-red-600 text-white p-3 rounded-lg font-bold hover:bg-red-700 transition-colors shadow-md">
+                Borrar completadas
+            </button>
         </aside>
 
         <main class="Tareas flex-1">
+            <div class="mb-4">
+                <input type="text" id="buscador-input" placeholder="Buscar tarea..." 
+                class="w-full p-[10px] rounded-[8px] border border-[#ddd] dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+            </div>
             <section class="entrada mb-6">
                 <form id="formulario" class="flex gap-2">
+                    <label for="espacio-escribir" class="sr-only">Nueva tarea</label>
                     <input type="text" id="espacio-escribir" placeholder="Escribe tu tarea..." required
-                        class="flex-1 p-[10px] rounded-[8px] border border-[#ddd] dark:bg-gray-700 dark:text-white outline-none">
+                        class="flex-1 p-[10px] rounded-[8px] border border-[#ddd] dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 outline-none focus:border-primary focus:ring-1 focus:ring-primary">
                     <button type="submit" id="boton-añadir" class="bg-primary text-white px-4 py-2 rounded-lg cursor-pointer font-bold">añadir</button>
                 </form>
             </section>
 
-            <h2 class="font-bold mb-4 dark:text-white">Mis Tareas</h2>
+            <h2 class="font-bold mb-4 text-primary text-2xl">Mis Tareas</h2>
             
             <div id="agregar-tareas" class="flex flex-col gap-[12px]"></div>
         </main>
@@ -44,8 +58,19 @@
 
     <script src="app.js"></script>
     <script>
+        // Esta función guarda la elección 
         function cambiarTema() {
-            document.getElementById('cuerpo').classList.toggle('dark');
+            const cuerpo = document.getElementById('cuerpo');
+            cuerpo.classList.toggle('dark');
+            
+            // guarda en la memoria del navegador
+            const modo = cuerpo.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('tema_preferido', modo);
+        }
+
+        // al cargar la página, revisa la memoria y pone el modo oscuro si se elige
+        if (localStorage.getItem('tema_preferido') === 'dark') {
+            document.getElementById('cuerpo').classList.add('dark');
         }
     </script>
 </body>

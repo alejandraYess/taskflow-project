@@ -12,6 +12,7 @@ window.onload = function() {
             agregarTarea(tarea.texto, tarea.completada);
         });
     }
+    actualizarEstadisticas();
 };
 
 function guardarCambios() {
@@ -26,6 +27,7 @@ Formulario.addEventListener('submit', function(evento) {
         listaTareas.push(objetoTarea);
         agregarTarea(textoTarea, false);
         guardarCambios();
+        actualizarEstadisticas();
         cajaTexto.value = '';
     }
 });
@@ -38,7 +40,10 @@ function agregarTarea(texto, estado) {
         <div class="tarea flex items-center gap-[15px]">
             <span class="nombre cursor-pointer dark:text-white ${estado ? 'line-through opacity-60 text-gray-400' : ''}">${texto}</span>
         </div>
-         <button class="boton-borrar text-red-500 font-bold text-[1.2rem] ml-[10px] hover:scale-110 transition-transform">X</button>
+        <div class="flex gap-2">
+            <button class="boton-editar text-blue-500 font-bold hover:scale-110 transition-transform">✏️</button>
+            <button class="boton-borrar text-red-500 font-bold text-[1.2rem] hover:scale-110 transition-transform">X</button>
+        </div>
     `; 
     
     const nombreTarea = nuevaTarea.querySelector('.nombre');
@@ -53,6 +58,7 @@ function agregarTarea(texto, estado) {
             }
         });
         guardarCambios();
+        actualizarEstadisticas();
     };
     
     const botonBorrar = nuevaTarea.querySelector('.boton-borrar');     
@@ -62,6 +68,22 @@ function agregarTarea(texto, estado) {
             return tarea.texto !== texto;
         });
         guardarCambios();
+        actualizarEstadisticas();
+    };
+
+    const botonEditar = nuevaTarea.querySelector('.boton-editar');
+    botonEditar.onclick = function() {
+        const nuevoTexto = prompt("Edita tu tarea:", texto);
+        if (nuevoTexto && nuevoTexto.trim() !== "") {
+            // Actualizamos en el array
+            listaTareas.forEach(function(t) {
+                if (t.texto === texto) {
+                    t.texto = nuevoTexto;
+                }
+            });
+            guardarCambios();
+            location.reload();
+        }
     };
 
     lugarTareas.appendChild(nuevaTarea);
@@ -93,3 +115,34 @@ function agregarTarea(texto, estado) {
     };
 });
 
+function actualizarEstadisticas() {
+    const total = listaTareas.length;
+    const completadas = listaTareas.filter(t => t.completada).length;
+    const pendientes = total - completadas;
+
+    const stats = document.querySelectorAll('.capsula p span');
+    if (stats.length >= 3) {
+        stats[0].innerText = total;
+        stats[1].innerText = completadas;
+        stats[2].innerText = pendientes;
+    }
+}
+
+// Filtra las tareas segun se vayan escribiendo
+const buscador = document.querySelector('#buscador-input');
+buscador.addEventListener('input', (e) => {
+    const texto = e.target.value.toLowerCase();
+    const tarjetas = document.querySelectorAll('#agregar-tareas > div');
+    
+    tarjetas.forEach(tarjeta => {
+        const contenido = tarjeta.innerText.toLowerCase();
+        tarjeta.style.display = contenido.includes(texto) ? 'flex' : 'none';
+    });
+});
+
+// limpia las tareas que ya están tachadas o completadas
+document.querySelector('#btn-borrar-completas').onclick = () => {
+    listaTareas = listaTareas.filter(t => !t.completada);
+    guardarCambios(); // Tu función que ya existe
+    location.reload(); // Recarga para limpiar la pantalla
+};
