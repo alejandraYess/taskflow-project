@@ -18,9 +18,3 @@ Probé pidiendo nombres de variables en español y le di ejemplos: listaUsuarios
 
 **Razonamiento paso a paso**
 Le pregunté que explicara paso a paso cómo funciona querySelector en app.js. En lugar de una explicación corta, fue desglosando cada parte, lo que ayudó a entender mejor.
-
-**Restricciones claras**
-Le pedí que listara las funciones de app.js, solo los nombres, uno por línea, sin explicaciones. La respuesta fue exactamente eso, sin texto extra.
-                                                          
-## Paso 5: Aplicar prompts al proyecto
-Aquí sí toca el código. Probé pidiendo JSDoc, refactorizar funciones y generar código nuevo. La IA aplicó los cambios según las instrucciones dadas.
