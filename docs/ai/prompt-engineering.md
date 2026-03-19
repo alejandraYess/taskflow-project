@@ -11,19 +11,19 @@ Refactorizar con la IA me ayudó a organizar todo por secciones. Aprendí que es
 ---
 
 ### PUNTO 6, TAREA 2
-**Prompts con rol**
+* Prompts con rol
 Le pedí a la IA que actuara como desarrollador senior y me explicara la función guardarEnLocalStorage. La respuesta fue más técnica y con sugerencias de mejora que no suele dar por defecto.
 
-**Prompts con ejemplos (few-shot)**
+* Prompts con ejemplos (few-shot)
 Probé pidiendo nombres de variables en español y le di ejemplos: listaUsuarios en vez de userList, esValido en vez de isValid. También probé con comentarios. Al dar ejemplos, la IA respetó mejor el estilo que quería.
 
-**Razonamiento paso a paso**
+* Razonamiento paso a paso
 Le pregunté que explicara paso a paso cómo funciona querySelector en app.js. En lugar de una explicación corta, fue desglosando cada parte, lo que ayudó a entender mejor.
 
-**Restricciones claras**
+* Restricciones claras
 Le pedí que listara las funciones de app.js, solo los nombres, uno por línea, sin explicaciones. La respuesta fue exactamente eso.
 
-**Aplicar prompts al proyecto**
+* Aplicar prompts al proyecto 
 Usé prompts para generar JSDoc, refactorizar funciones y generar código nuevo. La IA aplicó los cambios según las instrucciones.
 
 ---
