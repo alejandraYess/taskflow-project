@@ -12,14 +12,13 @@ Probé si la IA entendía el estilo de mi página al pedirle un pie de página. 
 
 ## 1.Formatear un precio:  Recibir 10932.8 y devolver "10,932.80" 
 Busqué en Google "formatear número con comas javascript" y usé toLocaleString
-# javascript
+
 function formatearPrecio(num) {
     return num.toLocaleString('es', { minimumFractionDigits: 2 });
 }
 
 ## 2. Quitar espacios extra: " hola mundo " → "hola mundo"
 Busqué "quitar espacios vacíos array javascript" y encontré filter y hice:
-#
 function quitarEspacios(texto) {
     return texto.trim().split(" ").filter(palabra => palabra !== "").join(" ");
 }
