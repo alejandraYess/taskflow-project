@@ -21,6 +21,6 @@ Le pregunté que explicara paso a paso cómo funciona querySelector en app.js. E
 
 **Restricciones claras**
 Le pedí que listara las funciones de app.js, solo los nombres, uno por línea, sin explicaciones. La respuesta fue exactamente eso, sin texto extra.
-
+                                                          
 ## Paso 5: Aplicar prompts al proyecto
 Aquí sí toca el código. Probé pidiendo JSDoc, refactorizar funciones y generar código nuevo. La IA aplicó los cambios según las instrucciones dadas.
