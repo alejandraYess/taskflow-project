@@ -102,7 +102,7 @@ function tareasPorCategoria() {
 
 * sin ia: Pensé en un if (listaTareas.length === 0) y crear un div con el mensaje. No sabía bien si ponerlo en actualizarEstadisticas o en otro sitio. Probé y a veces se duplicaba el mensaje al añadir y borrar
 
-* con ia: En TaskFlow, cuando no hay tareas, muestra un mensaje 'No hay tareas. Añade una arriba' en el contenedor de tareas
+* con ia: En TaskFlow, cuando no hay tareas, muestra un mensaje 'No hay tareas, añade una arriba' en el contenedor de tareas
 
 if (listaTareas.length === 0) {
     contenedorTareas.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">No hay tareas, añade una arriba</p>';
