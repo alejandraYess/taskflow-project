@@ -103,6 +103,7 @@ function renderizarTarea(texto, completada, categoria = 'Casa') {
         actualizarEstadisticas();
     };
 
+    // Al hacer clic en editar: abre un prompt, actualiza el texto en la lista y en pantalla, y guarda los cambios
     tarjeta.querySelector('.boton-editar').onclick = () => {
         const nuevoTexto = prompt('Edita tu tarea:', texto);
         if (nuevoTexto?.trim()) {

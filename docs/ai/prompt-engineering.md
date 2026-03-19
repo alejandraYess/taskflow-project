@@ -9,3 +9,56 @@ Usé la IA de cursor para darle una limpieza general a mi archivo app.js, para q
 
 # Conclusión
 Refactorizar con la IA me ayudó a organizar todo por secciones. Aprendí que es igual de importante que el código funcione y que esté bien explicado. 
+
+---
+
+PUNTO 6, TAREA 2
+# Prompt engineering: 10 prompts útiles
+
+## 1. Rol definido
+**Prompt:** "Actúa como un desarrollador senior. Explícame qué hace la función guardarEnLocalStorage y si se puede mejorar."
+**Por qué funciona:** La IA adopta un tono más técnico y da sugerencias de mejora que no daría sin el rol.
+
+## 2. Rol de profesor
+**Prompt:** "Actúa como un profesor de JavaScript. Explícame closures con un ejemplo simple."
+**Por qué funciona:** Adapta el nivel de explicación para que sea didáctico y fácil de seguir.
+
+## 3. Rol de reviewer
+**Prompt:** "Actúa como un reviewer de código. Revisa la función renderizarTarea y dime si hay problemas."
+**Por qué funciona:** Enfoca la respuesta en errores, buenas prácticas y posibles mejoras.
+
+## 4. Few-shot: comentarios
+**Prompt:** "Quiero comentarios así: Ejemplo 1: // Suma dos números. Ejemplo 2: // Verifica si está logueado. Pon un comentario así encima de actualizarEstadisticas."
+**Por qué funciona:** Los ejemplos muestran el formato exacto que quieres, la IA lo imita.
+
+## 5. Few-shot: nombres en español
+**Prompt:** "Quiero nombres en español. Ejemplo: listaUsuarios en vez de userList. Ejemplo: esValido en vez de isValid. Sugiere un nombre para una variable que guarda si una tarea está completada."
+**Por qué funciona:** Los ejemplos fijan el estilo y evitan respuestas en inglés.
+
+## 6. Razonamiento paso a paso
+**Prompt:** "Explícame paso a paso cómo funciona querySelector en app.js. Primero cada parte, luego el resultado."
+**Por qué funciona:** Obliga a la IA a desglosar el proceso y facilita entender.
+
+## 7. Razonamiento para errores
+**Prompt:** "Tengo un error en mi código. Explícame paso a paso qué está mal y por qué, y al final la corrección."
+**Por qué funciona:** Ayuda a aprender en lugar de solo copiar la solución.
+
+## 8. Restricción: respuesta corta
+**Prompt:** "Explícame qué hace localStorage en mi proyecto. Máximo 3 oraciones, en español."
+**Por qué funciona:** Evita respuestas largas y mantiene lo esencial.
+
+## 9. Restricción: solo lista
+**Prompt:** "Lista las funciones de app.js. Solo los nombres, uno por línea, sin explicaciones."
+**Por qué funciona:** Cuando sabes exactamente qué formato quieres, la IA respeta mejor.
+
+## 10. Para documentar
+**Prompt:** "Añade JSDoc a la función aplicarFiltros. Usa el mismo formato que guardarEnLocalStorage."
+**Por qué funciona:** Combinas restricción (formato) con referencia (una función existente).
+
+## 11. Para refactorizar
+**Prompt:** "Refactoriza actualizarEstadisticas para que sea más legible. Mantén la misma lógica."
+**Por qué funciona:** El rol implícito + la restricción "misma lógica" evita cambios no deseados.
+
+## 12. Para generar código
+**Prompt:** "Genera una función que cuente cuántas tareas hay por categoría. Solo el código, sin explicación."
+**Por qué funciona:** La restricción "solo código" reduce texto innecesario y acelera.
