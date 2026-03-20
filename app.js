@@ -150,7 +150,11 @@ function renderizarTarea(tarea) {
     tarjeta.innerHTML = `
         <div class="tarea flex items-center gap-[15px] flex-1 min-w-0">
             <span class="nombre cursor-pointer dark:text-white ${clasesCompletada}">${texto}</span>
-            <span class="badge-categoria text-xs px-2 py-0.5 rounded-full bg-primary/20 text-primary dark:bg-purple-500/30 dark:text-purple-300 shrink-0">${categoria}</span>
+            <select class="select-categoria-tarea text-xs px-2 py-0.5 rounded-full bg-primary/20 text-primary dark:bg-purple-500/30 dark:text-purple-300 shrink-0 border-0 cursor-pointer font-medium focus:ring-1 focus:ring-primary">
+                <option value="Casa" ${categoria === 'Casa' ? 'selected' : ''}>Casa</option>
+                <option value="Trabajo" ${categoria === 'Trabajo' ? 'selected' : ''}>Trabajo</option>
+                <option value="Ocio" ${categoria === 'Ocio' ? 'selected' : ''}>Ocio</option>
+            </select>
         </div>
         <div class="flex gap-2 shrink-0">
             <button type="button" class="boton-editar text-blue-500 font-bold hover:scale-110 transition-transform">✏️</button>
@@ -159,6 +163,7 @@ function renderizarTarea(tarea) {
     `;
 
     const spanNombre = tarjeta.querySelector('.nombre');
+    const selectCategoriaTarea = tarjeta.querySelector('.select-categoria-tarea');
     const tareaEnLista = listaTareas.find((t) => t.texto === texto && t.categoria === categoria);
 
     spanNombre.onclick = () => {
@@ -187,6 +192,19 @@ function renderizarTarea(tarea) {
             guardarEnLocalStorage();
         }
     };
+
+    selectCategoriaTarea.addEventListener('change', () => {
+        const nuevaCategoria = selectCategoriaTarea.value;
+        if (tareaEnLista) {
+            tareaEnLista.categoria = nuevaCategoria;
+            tarjeta.dataset.categoria = nuevaCategoria;
+            guardarEnLocalStorage();
+
+            const tipoFiltro = document.querySelector('.menu li.activo')?.innerText.toLowerCase() || 'todas';
+            const categoriaFiltro = document.querySelector('.menu-categorias li.categoria-activo')?.innerText.toLowerCase() || 'todas';
+            aplicarFiltros(tipoFiltro, categoriaFiltro, inputBuscador.value);
+        }
+    });
 
     contenedorTareas.appendChild(tarjeta);
 }
