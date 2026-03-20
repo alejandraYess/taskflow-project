@@ -32,7 +32,10 @@ function guardarEnLocalStorage() {
  */
 function cargarTareasGuardadas() {
     const datosGuardados = localStorage.getItem('mis_tareas');
-    if (!datosGuardados) return;
+    if (!datosGuardados) {
+        actualizarMensajeVacío();
+        return;
+    }
 
     listaTareas = JSON.parse(datosGuardados);
     listaTareas = listaTareas.map((t) => ({
@@ -70,6 +73,24 @@ formTareas.addEventListener('submit', (evento) => {
 /* ========== Renderizado de tareas ========== */
 
 /**
+ * Muestra u oculta el mensaje cuando no hay tareas.
+ */
+function actualizarMensajeVacío() {
+    const existente = document.getElementById('mensaje-sin-tareas');
+    if (listaTareas.length === 0) {
+        if (!existente) {
+            const msg = document.createElement('p');
+            msg.id = 'mensaje-sin-tareas';
+            msg.className = 'text-gray-500 dark:text-gray-400 italic py-8 text-center';
+            msg.textContent = 'No hay tareas. Añade una.';
+            contenedorTareas.appendChild(msg);
+        }
+    } else {
+        existente?.remove();
+    }
+}
+
+/**
  * Devuelve una copia de listaTareas ordenada según el criterio seleccionado.
  * @returns {Array}
  */
@@ -100,6 +121,7 @@ function renderizarTodasLasTareas() {
     contenedorTareas.innerHTML = '';
     const ordenadas = obtenerTareasOrdenadas();
     ordenadas.forEach((t) => renderizarTarea(t));
+    actualizarMensajeVacío();
 
     const botonFiltroActivo = document.querySelector('.menu li.activo');
     const categoriaActiva = document.querySelector('.menu-categorias li.categoria-activo');
@@ -154,6 +176,7 @@ function renderizarTarea(tarea) {
         if (idx !== -1) listaTareas.splice(idx, 1);
         guardarEnLocalStorage();
         actualizarEstadisticas();
+        actualizarMensajeVacío();
     };
 
     tarjeta.querySelector('.boton-editar').onclick = () => {
