@@ -249,6 +249,10 @@ function actualizarEstadisticas() {
 /* ========== Borrar completadas ========== */
 
 document.querySelector('#btn-borrar-completas').onclick = () => {
+    const completadas = listaTareas.filter((t) => t.completada).length;
+    if (completadas === 0) return;
+    if (!confirm('¿Seguro que quieres borrar las completadas?')) return;
+
     listaTareas = listaTareas.filter((t) => !t.completada);
     guardarEnLocalStorage();
     renderizarTodasLasTareas();
