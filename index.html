@@ -64,6 +64,16 @@
             </section>
 
             <h2 class="font-bold mb-4 text-primary dark:text-purple-300 text-2xl">Mis Tareas</h2>
+
+            <div class="flex items-center gap-4 mb-4">
+                <label for="orden-tareas" class="text-sm font-medium text-gray-700 dark:text-gray-300">Ordenar:</label>
+                <select id="orden-tareas" class="p-2 rounded-lg border border-gray-300 dark:bg-gray-700 dark:text-white dark:border-gray-600 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                    <option value="recientes">Más recientes</option>
+                    <option value="antiguas">Más antiguas</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+            </div>
             
             <div id="agregar-tareas" class="flex flex-col gap-[12px]"></div>
         </main>
@@ -74,7 +84,7 @@
         // Esta función guarda la elección 
         function cambiarTema() {
             const cuerpo = document.getElementById('cuerpo');
-            cuerpo.classList.toggle('dark');
+            cuerpo.classList.toggle('dark')
             
             // guarda en la memoria del navegador
             const modo = cuerpo.classList.contains('dark') ? 'dark' : 'light';

@@ -3,11 +3,12 @@ const formTareas = document.querySelector('#formulario');
 const inputNuevaTarea = document.querySelector('#espacio-escribir');
 const selectCategoria = document.querySelector('#select-categoria');
 const contenedorTareas = document.querySelector('#agregar-tareas');
+const selectOrden = document.querySelector('#orden-tareas');
 const inputBuscador = document.querySelector('#buscador-input');
 const botonesFiltro = document.querySelectorAll('.menu li');
 const botonesCategoria = document.querySelectorAll('.menu-categorias li');
 
-/** @type {Array<{texto: string, completada: boolean, categoria: string}>} */
+/** @type {Array<{texto: string, completada: boolean, categoria: string, fechaCreacion: string}>} */
 let listaTareas = [];
 
 /* ========== Inicialización ========== */
@@ -34,10 +35,12 @@ function cargarTareasGuardadas() {
     if (!datosGuardados) return;
 
     listaTareas = JSON.parse(datosGuardados);
-    listaTareas.forEach((tarea) => {
-        const categoria = tarea.categoria || 'Casa';
-        renderizarTarea(tarea.texto, tarea.completada, categoria);
-    });
+    listaTareas = listaTareas.map((t) => ({
+        ...t,
+        fechaCreacion: t.fechaCreacion ?? new Date().toISOString(),
+        categoria: t.categoria || 'Casa'
+    }));
+    renderizarTodasLasTareas();
 }
 
 /* ========== Formulario de nueva tarea ========== */
@@ -51,8 +54,14 @@ formTareas.addEventListener('submit', (evento) => {
         return;
     }
     const categoria = selectCategoria.value;
-    listaTareas.push({ texto, completada: false, categoria });
-    renderizarTarea(texto, false, categoria);
+    const tarea = {
+        texto,
+        completada: false,
+        categoria,
+        fechaCreacion: new Date().toISOString()
+    };
+    listaTareas.push(tarea);
+    renderizarTodasLasTareas();
     guardarEnLocalStorage();
     actualizarEstadisticas();
     inputNuevaTarea.value = '';
@@ -61,12 +70,56 @@ formTareas.addEventListener('submit', (evento) => {
 /* ========== Renderizado de tareas ========== */
 
 /**
- * Crea y agrega una tarjeta de tarea al DOM.
- * @param {string} texto - Contenido de la tarea
- * @param {boolean} completada - Si la tarea está completada
- * @param {string} [categoria='Casa'] - Categoría de la tarea (Casa, Trabajo, Ocio)
+ * Devuelve una copia de listaTareas ordenada según el criterio seleccionado.
+ * @returns {Array}
  */
-function renderizarTarea(texto, completada, categoria = 'Casa') {
+function obtenerTareasOrdenadas() {
+    const criterio = selectOrden?.value || 'recientes';
+    const copia = [...listaTareas];
+    switch (criterio) {
+        case 'recientes':
+            copia.sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
+            break;
+        case 'antiguas':
+            copia.sort((a, b) => new Date(a.fechaCreacion) - new Date(b.fechaCreacion));
+            break;
+        case 'az':
+            copia.sort((a, b) => a.texto.localeCompare(b.texto));
+            break;
+        case 'za':
+            copia.sort((a, b) => b.texto.localeCompare(a.texto));
+            break;
+    }
+    return copia;
+}
+
+/**
+ * Limpia el contenedor, ordena y renderiza todas las tareas.
+ */
+function renderizarTodasLasTareas() {
+    contenedorTareas.innerHTML = '';
+    const ordenadas = obtenerTareasOrdenadas();
+    ordenadas.forEach((t) => renderizarTarea(t));
+
+    const botonFiltroActivo = document.querySelector('.menu li.activo');
+    const categoriaActiva = document.querySelector('.menu-categorias li.categoria-activo');
+    const tipoFiltro = botonFiltroActivo ? botonFiltroActivo.innerText.toLowerCase() : 'todas';
+    const categoriaFiltro = categoriaActiva ? categoriaActiva.innerText.toLowerCase() : 'todas';
+    aplicarFiltros(tipoFiltro, categoriaFiltro, inputBuscador.value);
+}
+
+if (selectOrden) {
+    selectOrden.addEventListener('change', () => {
+        renderizarTodasLasTareas();
+    });
+}
+
+/**
+ * Crea y agrega una tarjeta de tarea al DOM.
+ * @param {{texto: string, completada: boolean, categoria: string}} tarea
+ */
+function renderizarTarea(tarea) {
+    const { texto, completada, categoria = 'Casa' } = tarea;
     const clasesCompletada = completada ? 'line-through opacity-60 text-gray-400' : '';
     const tarjeta = document.createElement('div');
     tarjeta.className = 'flex justify-between items-center bg-white p-[15px_20px] rounded-[12px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800 transition-all';
@@ -84,7 +137,7 @@ function renderizarTarea(texto, completada, categoria = 'Casa') {
     `;
 
     const spanNombre = tarjeta.querySelector('.nombre');
-    const tareaEnLista = listaTareas.find((t) => t.texto === texto);
+    const tareaEnLista = listaTareas.find((t) => t.texto === texto && t.categoria === categoria);
 
     spanNombre.onclick = () => {
         tareaEnLista.completada = !tareaEnLista.completada;
@@ -97,24 +150,20 @@ function renderizarTarea(texto, completada, categoria = 'Casa') {
 
     tarjeta.querySelector('.boton-borrar').onclick = () => {
         tarjeta.remove();
-        const tareaRef = listaTareas.find((t) => t.texto === texto && t.categoria === categoria);
-        listaTareas = listaTareas.filter((t) => t !== tareaRef);
+        const idx = listaTareas.findIndex((t) => t.texto === texto && t.categoria === categoria);
+        if (idx !== -1) listaTareas.splice(idx, 1);
         guardarEnLocalStorage();
         actualizarEstadisticas();
     };
 
-    // Al hacer clic en editar: abre un prompt, actualiza el texto en la lista y en pantalla, y guarda los cambios
     tarjeta.querySelector('.boton-editar').onclick = () => {
         const nuevoTexto = prompt('Edita tu tarea:', texto);
-        if (nuevoTexto?.trim()) {
+        if (nuevoTexto?.trim() && tareaEnLista) {
             tareaEnLista.texto = nuevoTexto.trim();
             spanNombre.textContent = nuevoTexto.trim();
             guardarEnLocalStorage();
         }
     };
-
-    // Actualizar referencia por si el objeto tareaEnLista no tiene categoria todavía (tareas antiguas)
-    if (!tareaEnLista.categoria) tareaEnLista.categoria = categoria;
 
     contenedorTareas.appendChild(tarjeta);
 }
@@ -202,13 +251,6 @@ function actualizarEstadisticas() {
 document.querySelector('#btn-borrar-completas').onclick = () => {
     listaTareas = listaTareas.filter((t) => !t.completada);
     guardarEnLocalStorage();
-    contenedorTareas.innerHTML = '';
-    listaTareas.forEach((t) => renderizarTarea(t.texto, t.completada, t.categoria || 'Casa'));
+    renderizarTodasLasTareas();
     actualizarEstadisticas();
-
-    const botonFiltroActivo = document.querySelector('.menu li.activo');
-    const categoriaActiva = document.querySelector('.menu-categorias li.categoria-activo');
-    const tipoFiltro = botonFiltroActivo ? botonFiltroActivo.innerText.toLowerCase() : 'todas';
-    const categoriaFiltro = categoriaActiva ? categoriaActiva.innerText.toLowerCase() : 'todas';
-    aplicarFiltros(tipoFiltro, categoriaFiltro, inputBuscador.value);
 };
