@@ -1,3 +1,7 @@
+/**
+ * TaskFlow - Lógica principal de la aplicación de tareas.
+ * Gestiona CRUD de tareas, persistencia en localStorage, filtros, ordenación y renderizado.
+ */
 // Referencias al DOM
 const formTareas = document.querySelector('#formulario');
 const inputNuevaTarea = document.querySelector('#espacio-escribir');
@@ -21,14 +25,16 @@ window.onload = () => {
 /* ========== Persistencia ========== */
 
 /**
- * Guarda la lista de tareas en localStorage.
+ * Persiste el array listaTareas en localStorage bajo la clave 'mis_tareas'.
+ * Se llama tras cada operación que modifica la lista.
  */
 function guardarEnLocalStorage() {
     localStorage.setItem('mis_tareas', JSON.stringify(listaTareas));
 }
 
 /**
- * Carga las tareas desde localStorage y las renderiza.
+ * Recupera las tareas guardadas en localStorage, normaliza fechaCreacion y categoria
+ * de tareas antiguas, y las renderiza. Si no hay datos, muestra el mensaje vacío.
  */
 function cargarTareasGuardadas() {
     const datosGuardados = localStorage.getItem('mis_tareas');
@@ -73,7 +79,8 @@ formTareas.addEventListener('submit', (evento) => {
 /* ========== Renderizado de tareas ========== */
 
 /**
- * Muestra u oculta el mensaje cuando no hay tareas.
+ * Muestra "No hay tareas. Añade una." si la lista está vacía.
+ * Oculta el mensaje si hay tareas. Evita duplicados comprobando si el elemento ya existe en el DOM.
  */
 function actualizarMensajeVacío() {
     const existente = document.getElementById('mensaje-sin-tareas');
@@ -91,8 +98,8 @@ function actualizarMensajeVacío() {
 }
 
 /**
- * Devuelve una copia de listaTareas ordenada según el criterio seleccionado.
- * @returns {Array}
+ * Ordena una copia de listaTareas según el select de orden actual.
+ * @returns {Array<{texto: string, completada: boolean, categoria: string, fechaCreacion: string}>} Copia ordenada (recientes, antiguas, A-Z o Z-A)
  */
 function obtenerTareasOrdenadas() {
     const criterio = selectOrden?.value || 'recientes';
@@ -137,8 +144,9 @@ if (selectOrden) {
 }
 
 /**
- * Crea y agrega una tarjeta de tarea al DOM.
- * @param {{texto: string, completada: boolean, categoria: string}} tarea
+ * Genera una tarjeta DOM para una tarea con botones editar, borrar y select de categoría.
+ * Asocia eventos para marcar completada, editar texto, borrar y cambiar categoría.
+ * @param {{texto: string, completada: boolean, categoria: string, fechaCreacion?: string}} tarea - Objeto tarea del array listaTareas
  */
 function renderizarTarea(tarea) {
     const { texto, completada, categoria = 'Casa' } = tarea;
@@ -212,10 +220,11 @@ function renderizarTarea(tarea) {
 /* ========== Filtros ========== */
 
 /**
- * Aplica visibilidad a las tarjetas según filtros de estado, categoría y búsqueda.
+ * Muestra u oculta cada tarjeta según estado (completada/pendiente), categoría y búsqueda.
+ * Combina los tres criterios: una tarjeta solo se muestra si cumple los tres.
  * @param {string} tipoFiltro - 'todas' | 'pendientes' | 'completadas'
  * @param {string} [categoriaFiltro='todas'] - 'todas' | 'casa' | 'trabajo' | 'ocio'
- * @param {string} [textoBusqueda=''] - Texto para filtrar por coincidencia
+ * @param {string} [textoBusqueda=''] - Texto para filtrar (coincidencia parcial, case-insensitive)
  */
 function aplicarFiltros(tipoFiltro, categoriaFiltro = 'todas', textoBusqueda = '') {
     const tarjetas = contenedorTareas.querySelectorAll(':scope > div');
@@ -272,7 +281,8 @@ inputBuscador.addEventListener('input', (evento) => {
 /* ========== Estadísticas ========== */
 
 /**
- * Actualiza los números mostrados en el panel de estadísticas.
+ * Actualiza los tres contadores de la barra lateral: Total, Completadas y Pendientes.
+ * Se ejecuta tras añadir, borrar o cambiar el estado de cualquier tarea.
  */
 function actualizarEstadisticas() {
     const total = listaTareas.length;

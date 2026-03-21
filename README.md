@@ -1,30 +1,60 @@
-##Proyecto Taskflow##
-TaskFlow es una aplicación de gestión de tareas.
-El objetivo es ofrecer una interfaz funcional y rápida para la organización de pendientes, compatible con entornos de escritorio y dispositivos móviles.
+# TaskFlow
 
-**Funcionalidades implementadas**
+Aplicación web de gestión de tareas con interfaz limpia y diseño responsive. Organiza tus pendientes por categorías, filtra por estado y ordena como prefieras.
 
-- Gestión de tareas: Inserción y eliminación individual
-- Estados: Marcado de tareas completadas con cambio visual de estilo (tachado y opacidad).
-- Sistema de filtros: Visualización segmentada por "Todas", "Pendientes" o "Completadas".
-- Panel de control: Contador dinámico de tareas totales y pendientes en la barra lateral.
-- Persistencia de datos: Uso de LocalStorage para mantener la lista tras recargar la página.
-- Interfaz adaptativa: Implementación de modo oscuro y diseño responsive.
+## Descripción
 
-**Tecnologías utilizadas**
+TaskFlow permite crear, editar y eliminar tareas de forma intuitiva. Las tareas se organizan en categorías (Casa, Trabajo, Ocio), pueden marcarse como completadas y persistir en el navegador gracias a localStorage.
 
-- HTML5: Estructura de la aplicación.
-- Tailwind CSS: Estilizado mediante clases utilitarias y manejo de breakpoints para móvil.
-- JavaScript (ES6): Manipulación del DOM, gestión de eventos y lógica de filtrado.
-- LocalStorage API: Almacenamiento persistente en el navegador.
+## Funcionalidades
 
-**Notas de desarrollo**
-El principal reto técnico fue la sincronización de las estadísticas, se implementó una función de actualización global que se ejecuta tras cada modificación del array de tareas (añadir, borrar o cambiar estado) para garantizar la integridad de los contadores.
-Tambien se configuró la detección de preferencias de color del sistema y su almacenamiento para que el modo oscuro sea persistente entre sesiones.
+- **Gestión de tareas:** Añadir, editar y eliminar tareas individuales
+- **Categorías:** Asignar cada tarea a Casa, Trabajo u Ocio al crearla o cambiarla después
+- **Estados:** Marcar tareas como completadas (tachado visual)
+- **Filtros:** Ver Todas, solo Pendientes o solo Completadas
+- **Filtro por categoría:** Mostrar tareas de una categoría concreta
+- **Búsqueda:** Buscar tareas por texto
+- **Ordenación:** Más recientes, más antiguas, A-Z o Z-A
+- **Confirmación:** Diálogo de confirmación antes de borrar todas las completadas
+- **Mensaje vacío:** Indicación cuando no hay tareas
+- **Estadísticas:** Contador de total, completadas y pendientes
+- **Modo oscuro:** Tema oscuro persistente entre sesiones
+- **Responsive:** Adaptado a móvil y escritorio
 
-**Pruebas de funcionamiento**
+## Tecnologías
 
-- Persistencia: Verificación de guardado de datos tras cierre de sesión
-- Validación: Control de errores en inputs vacíos
-- Responsive Design: Comprobación de flujo de elementos en resoluciones móviles.
-- Lógica de filtros: Validación de renderizado condicional según el estado de la tarea.
+- HTML5
+- Tailwind CSS
+- JavaScript (ES6)
+- LocalStorage API
+
+## Estructura del proyecto
+
+```
+taskflow-project/
+├── index.html    # Estructura principal
+├── app.js        # Lógica de la aplicación
+├── style.css     # CSS generado por Tailwind
+├── diseno.css    # Fuente de estilos (Tailwind)
+└── docs/ai/      # Documentación de IA
+```
+
+## Cómo ejecutar
+
+1. Clona el repositorio
+2. Abre `index.html` en el navegador
+
+**Desarrollo:** Si modificas estilos, ejecuta `npm install` y luego `npm run build` para regenerar `style.css`.
+
+## Ejemplos de uso
+
+- **Añadir una tarea:** Escribe el texto en el campo de entrada, elige una categoría (Casa, Trabajo u Ocio) y pulsa "añadir".
+- **Marcar como completada:** Haz clic sobre el texto de la tarea para alternar entre pendiente y completada.
+- **Editar una tarea:** Pulsa el botón ✏️ junto a la tarea e introduce el nuevo texto en el diálogo.
+- **Cambiar la categoría:** Usa el desplegable que aparece en cada tarjeta para asignar la tarea a otra categoría sin editar el texto.
+- **Filtrar por estado:** Usa los botones "Todas", "Pendientes" o "Completadas" en la barra lateral.
+- **Filtrar por categoría:** Pulsa "Casa", "Trabajo" u "Ocio" en la sección Categorías para ver solo esas tareas.
+- **Buscar:** Escribe en el campo "Buscar tarea..." para filtrar por coincidencia de texto.
+- **Ordenar:** Usa el desplegable "Ordenar" para mostrar las tareas por más recientes, más antiguas, A-Z o Z-A.
+- **Borrar completadas:** Pulsa "Borrar completadas" y confirma en el diálogo para eliminar todas las tareas marcadas como completadas.
+- **Modo oscuro:** Pulsa el botón "Modo oscuro" en la cabecera para alternar entre tema claro y oscuro.
