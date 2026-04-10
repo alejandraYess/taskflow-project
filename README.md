@@ -4,7 +4,7 @@ Aplicación web de gestión de tareas con interfaz limpia y diseño responsive. 
 
 ## Descripción
 
-TaskFlow permite crear, editar y eliminar tareas de forma intuitiva. Las tareas se organizan en categorías (Casa, Trabajo, Ocio), pueden marcarse como completadas y persistir en el navegador gracias a localStorage.
+TaskFlow permite crear, editar y eliminar tareas de forma intuitiva. Las tareas se organizan en categorías (Casa, Trabajo, Ocio), pueden marcarse como completadas y se sincronizan con la API REST del backend (no se guardan en localStorage).
 
 ## Funcionalidades
 
@@ -26,7 +26,7 @@ TaskFlow permite crear, editar y eliminar tareas de forma intuitiva. Las tareas 
 - HTML5
 - Tailwind CSS
 - JavaScript (ES6)
-- LocalStorage API
+- API REST (`fetch`) y backend Node/Express
 
 ## Estructura del proyecto
 

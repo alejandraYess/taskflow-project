@@ -61,9 +61,13 @@
                         <option value="Ocio">Ocio</option>
                     </select>
                     <button type="submit" id="boton-añadir" class="bg-primary hover:bg-purple-600 text-white px-4 py-2 rounded-lg cursor-pointer font-bold transition-colors">añadir</button>
+                </form>
             </section>
 
             <h2 class="font-bold mb-4 text-primary dark:text-purple-300 text-2xl">Mis Tareas</h2>
+
+            <div id="banner-error-api" class="hidden mb-4 p-3 rounded-lg bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200 text-sm" role="alert"></div>
+            <p id="indicador-carga" class="hidden mb-2 text-sm text-gray-600 dark:text-gray-400">Cargando…</p>
 
             <div class="flex items-center gap-4 mb-4">
                 <label for="orden-tareas" class="text-sm font-medium text-gray-700 dark:text-gray-300">Ordenar:</label>
@@ -79,7 +83,7 @@
         </main>
     </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
     <script>
         // Esta función guarda la elección 
         function cambiarTema() {
