@@ -2,7 +2,7 @@ function baseUrl() {
   if (typeof window !== 'undefined' && window.TASKFLOW_API_BASE) {
     return String(window.TASKFLOW_API_BASE).replace(/\/$/, '');
   }
-  return 'http://localhost:3000/api/v1/tasks';
+  return 'https://taskflow-project-6kub.vercel.app/api/v1/tasks';
 }
 
 async function errorFromResponse(response) {
