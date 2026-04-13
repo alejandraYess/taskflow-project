@@ -9,16 +9,16 @@
 <body id="cuerpo" class="bg-[#f0f2f5] font-['Segoe_UI'] m-0 dark:bg-gray-900 transition-colors">
 
     <header class="bg-[#333] text-white p-4 text-center relative">
-        <h1 class="text-xl font-bold">APP TAREAS</h1>
+        <h1 style="font-size:clamp(1.8rem, 6vw, 3.49rem); transform:scaleX(1.6) scaleY(1.1); text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 3px 3px 6px rgba(0,0,0,0.8);" class="font-bold leading-none inline-block">TaskFlow</h1>
         <button onclick="cambiarTema()" class="absolute right-4 top-4 border border-white px-2 py-1 rounded text-xs">Modo oscuro
         </button>
     </header>
 
-    <div class="contenedor flex flex-col md:flex-row max-w-[1200px] mx-auto my-[20px] gap-[30px] px-[20px] items-start">
+    <div class="contenedor flex flex-col md:flex-row max-w-[1200px] md:ml-[40px] mx-auto my-[20px] gap-[30px] px-[20px] items-start">
 
         <aside class="barra-iz flex flex-col gap-[12px] w-full md:w-[300px] shrink-0"> 
             <div class="capsula bg-white p-[12px] rounded-[10px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800">
-                <h3 class="mt-0 text-[1rem] border-b border-gray-100 pb-[6px] mb-0 text-primary font-bold">Filtros</h3>
+                <h3 class="mt-0 text-[1.1rem] border-b border-gray-100 pb-[6px] mb-0 text-gray-700 dark:text-primary font-bold">Filtros</h3>
                 <ul class="menu list-none p-0 mt-[4px]">
                     <li class="activo bg-primary text-white px-2 py-1 rounded-[4px] cursor-pointer mt-[3px] hover:bg-purple-600 transition-colors">Todas</li>
                     <li class="px-2 py-1 rounded-[4px] cursor-pointer mt-[3px] hover:bg-gray-100 dark:text-white">Pendientes</li>
@@ -26,7 +26,7 @@
                 </ul>
             </div>
             <div class="capsula bg-white p-[12px] rounded-[10px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800">
-                <h3 class="mt-0 text-[1rem] border-b border-gray-100 pb-[6px] mb-0 text-primary font-bold">Categorías</h3>
+                <h3 class="mt-0 text-[1.1rem] border-b border-gray-100 pb-[6px] mb-0 text-gray-700 dark:text-primary font-bold">Categorías</h3>
                 <ul class="menu-categorias list-none p-0 mt-[4px]">
                     <li class="categoria-activo bg-primary text-white px-2 py-1 rounded-[4px] cursor-pointer mt-[3px] hover:bg-purple-600 transition-colors">Todas</li>
                     <li class="px-2 py-1 rounded-[4px] cursor-pointer mt-[3px] hover:bg-gray-100 dark:text-white">Casa</li>
@@ -35,7 +35,7 @@
                 </ul>
             </div>
             <div class="capsula bg-white p-[20px] rounded-[15px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:bg-gray-800">
-                <h3 class="text-primary font-bold border-b border-gray-100 pb-[10px]">Estadísticas</h3>
+                <h3 class="text-[1.1rem] text-gray-700 dark:text-primary font-bold border-b border-gray-100 pb-[10px]">Estadísticas</h3>
                 <p class="dark:text-white">Total: <span>0</span></p>
                 <p class="dark:text-white">Completadas: <span>0</span></p>
                 <p class="dark:text-white">Pendientes: <span>0</span></p>
@@ -64,7 +64,7 @@
                 </form>
             </section>
 
-            <h2 class="font-bold mb-4 text-primary dark:text-purple-300 text-2xl">Mis Tareas</h2>
+            <h2 class="font-bold mb-4 text-gray-700 dark:text-purple-300 text-2xl">Mis Tareas</h2>
 
             <div id="banner-error-api" class="hidden mb-4 p-3 rounded-lg bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200 text-sm" role="alert"></div>
             <p id="indicador-carga" class="hidden mb-2 text-sm text-gray-600 dark:text-gray-400">Cargando…</p>
